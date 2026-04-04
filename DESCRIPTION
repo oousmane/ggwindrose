@@ -1,0 +1,28 @@
+Package: ggwindrose
+Title: Wind Rose Geom for 'ggplot2'
+Version: 0.0.0.9000
+Authors@R: 
+    person("Ousmane", "Ouedraogo", , "oousmane@proton.me", role = c("aut", "cre"))
+Description: Extends 'ggplot2' with a wind rose geom that bins wind
+    direction and speed observations into a direction-by-speed frequency
+    table using a custom Stat/Geom pair. Coordinate, scale, and theme
+    helpers produce publication-ready wind roses following meteorological
+    conventions (North at top, clockwise rotation). A utility function
+    computes calm-wind percentages and a custom guide renders them as a
+    footer below the legend colour boxes.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Imports:
+    ggplot2 (>= 3.5.0),
+    glue,
+    utils,
+    gtable
+Suggests:
+    RColorBrewer,
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown
+URL: https://github.com/oousmane/ggwindrose
+BugReports: https://github.com/oousmane/ggwindrose/issues
