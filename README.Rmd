@@ -1,22 +1,33 @@
+---
+output: github_document
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file. -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse  = TRUE,
+  comment   = "#>",
+  fig.path  = "man/figures/README-",
+  out.width = "70%",
+  fig.align = "center",
+  dpi       = 150
+)
+```
 
 # ggwindrose <img src="man/figures/logo.png" align="right" height="139" alt="" />
 
 <!-- badges: start -->
-
-[![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
 `ggwindrose` extends **ggplot2** with a wind rose geom that bins wind
-direction and speed observations into a direction-by-speed frequency
-table using a custom `Stat`/`Geom` pair.
+direction and speed observations into a direction-by-speed frequency table
+using a custom `Stat`/`Geom` pair.
 
 ## Features
 
-- `geom_windrose()` — stacked frequency bars, fully compatible with
-  `facet_wrap()`
+- `geom_windrose()` — stacked frequency bars, fully compatible with `facet_wrap()`
 - `coord_windrose()` — polar coordinates: **North at top, clockwise**
 - `scale_x_windrose()` — compass labels (4, 8, or 16 points)
 - `scale_y_windrose()` — radial frequency axis, starts at 0
@@ -26,7 +37,7 @@ table using a custom `Stat`/`Geom` pair.
 
 ## Installation
 
-``` r
+```{r install, eval = FALSE}
 # Development version from GitHub
 # install.packages("pak")
 pak::pak("yourusername/ggwindrose")
@@ -34,7 +45,7 @@ pak::pak("yourusername/ggwindrose")
 
 ## Quick start
 
-``` r
+```{r quickstart}
 library(ggwindrose)
 library(ggplot2)
 
@@ -46,17 +57,13 @@ ggplot(wind, aes(x = wdir, y = wspd)) +
   scale_fill_windrose(name = "Speed (m/s)") +
   theme_minimal() +
   theme_windrose()
-#> Warning: Removed 5 rows containing missing values or values outside the scale range
-#> (`geom_windrose()`).
 ```
-
-<img src="man/figures/README-quickstart-1.png" alt="" width="70%" style="display: block; margin: auto;" />
 
 ## Customisation
 
 ### Number of sectors
 
-``` r
+```{r sectors, fig.width = 11, fig.height = 5.5, out.width = "100%"}
 library(patchwork)
 
 p16 <- ggplot(wind, aes(x = wdir, y = wspd)) +
@@ -80,17 +87,11 @@ p8 <- ggplot(wind, aes(x = wdir, y = wspd)) +
   theme_windrose()
 
 p16 + p8
-#> Warning: Removed 5 rows containing missing values or values outside the scale range
-#> (`geom_windrose()`).
-#> Removed 5 rows containing missing values or values outside the scale range
-#> (`geom_windrose()`).
 ```
-
-<img src="man/figures/README-sectors-1.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 ### Custom speed breaks
 
-``` r
+```{r breaks}
 ggplot(wind, aes(x = wdir, y = wspd)) +
   geom_windrose(speed_breaks = c(0.5, 2, 4, 6, 8, Inf)) +
   coord_windrose() +
@@ -99,19 +100,15 @@ ggplot(wind, aes(x = wdir, y = wspd)) +
   scale_fill_windrose(name = "Speed (m/s)") +
   theme_minimal() +
   theme_windrose()
-#> Warning: Removed 4 rows containing missing values or values outside the scale range
-#> (`geom_windrose()`).
 ```
-
-<img src="man/figures/README-breaks-1.png" alt="" width="70%" style="display: block; margin: auto;" />
 
 ### Calm percentage
 
-The calm-% footer is added **automatically** to the legend. Calm winds
-(speed ≤ 0.5 m/s by default) are excluded from the bars but counted in
-the frequency denominator.
+The calm-% footer is added **automatically** to the legend.
+Calm winds (speed ≤ 0.5 m/s by default) are excluded from the bars but
+counted in the frequency denominator.
 
-``` r
+```{r calm}
 ggplot(wind, aes(x = wdir, y = wspd)) +
   geom_windrose() +
   coord_windrose() +
@@ -125,15 +122,11 @@ ggplot(wind, aes(x = wdir, y = wspd)) +
   ) +
   theme_minimal() +
   theme_windrose()
-#> Warning: Removed 5 rows containing missing values or values outside the scale range
-#> (`geom_windrose()`).
 ```
-
-<img src="man/figures/README-calm-1.png" alt="" width="70%" style="display: block; margin: auto;" />
 
 ### Colours
 
-``` r
+```{r colours, fig.width = 11, fig.height = 5.5, out.width = "100%"}
 p_blues <- ggplot(wind, aes(x = wdir, y = wspd)) +
   geom_windrose() +
   coord_windrose() +
@@ -158,29 +151,14 @@ p_spectral <- ggplot(wind, aes(x = wdir, y = wspd)) +
   theme_windrose()
 
 p_blues + p_spectral
-#> Warning: Removed 5 rows containing missing values or values outside the scale range
-#> (`geom_windrose()`).
-#> Removed 5 rows containing missing values or values outside the scale range
-#> (`geom_windrose()`).
 ```
-
-<img src="man/figures/README-colours-1.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 ### Seasonal facets
 
-Each panel independently computes its own frequencies and calm
-percentage.
+Each panel independently computes its own frequencies and calm percentage.
 
-``` r
+```{r facets, fig.width = 9, fig.height = 8, out.width = "100%"}
 library(dplyr)
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
 
 wind |>
   mutate(season = case_when(
@@ -199,8 +177,4 @@ wind |>
   facet_wrap(~season) +
   theme_minimal() +
   theme_windrose()
-#> Warning: Removed 16 rows containing missing values or values outside the scale range
-#> (`geom_windrose()`).
 ```
-
-<img src="man/figures/README-facets-1.png" alt="" width="100%" style="display: block; margin: auto;" />

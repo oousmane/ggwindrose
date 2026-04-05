@@ -125,13 +125,10 @@ GuideWindrose <- ggplot2::ggproto(
 #' @seealso [ggwindrose::scale_fill_windrose()], [ggwindrose::windrose_calm_pct()]
 #'
 #' @examples
+#' \dontrun{
 #' library(ggplot2)
-#' set.seed(1)
-#' df <- data.frame(wdir = sample(0:359, 300, replace = TRUE),
-#'                  wspd = c(rep(0, 20), rexp(280, 0.2)))
-#'
-#' # Calm % added automatically — no df$wspd needed
-#' ggplot(df, aes(x = wdir, y = wspd)) +
+#' # Calm % added automatically
+#' ggplot(wind, aes(x = wdir, y = wspd)) +
 #'   geom_windrose() +
 #'   coord_windrose() +
 #'   scale_x_windrose() +
@@ -139,16 +136,17 @@ GuideWindrose <- ggplot2::ggproto(
 #'   theme_windrose()
 #'
 #' # Override the footer label (e.g. French)
-#' ggplot(df, aes(x = wdir, y = wspd)) +
+#' ggplot(wind, aes(x = wdir, y = wspd)) +
 #'   geom_windrose() +
 #'   coord_windrose() +
 #'   scale_x_windrose() +
 #'   scale_fill_windrose(
 #'     name  = "Vitesse (m/s)",
-#'     guide = guide_windrose(calm_text = windrose_calm_pct(df$wspd,
+#'     guide = guide_windrose(calm_text = windrose_calm_pct(wind$wspd,
 #'                                                          label = "Calme : "))
 #'   ) +
 #'   theme_windrose()
+#' }
 #'
 #' @export
 guide_windrose <- function(calm_text = NULL,

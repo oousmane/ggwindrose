@@ -75,38 +75,36 @@ GeomWindrose <- ggplot2::ggproto(
 #'   [ggwindrose::theme_windrose()]
 #'
 #' @examples
+#' \dontrun{
 #' library(ggplot2)
-#' set.seed(42)
-#' df <- data.frame(
-#'   wdir = sample(0:359, 500, replace = TRUE),
-#'   wspd = c(rep(0, 30), rexp(470, 0.2))
-#' )
 #'
 #' # Basic wind rose — 16 sectors, default speed breaks
-#' ggplot(df, aes(x = wdir, y = wspd)) +
+#' ggplot(wind, aes(x = wdir, y = wspd)) +
 #'   geom_windrose() +
 #'   coord_windrose() +
 #'   scale_x_windrose() +
 #'   scale_fill_windrose(
 #'     name  = "Speed (m/s)",
-#'     guide = guide_windrose(calm_text = windrose_calm_pct(df$wspd))
+#'     guide = guide_windrose(calm_text = windrose_calm_pct(wind$wspd))
 #'   )
 #'
 #' # 8 sectors with a base theme
-#' ggplot(df, aes(x = wdir, y = wspd)) +
+#' ggplot(wind, aes(x = wdir, y = wspd)) +
 #'   geom_windrose(n_dir = 8) +
 #'   coord_windrose() +
 #'   scale_x_windrose() +
 #'   scale_fill_windrose(
 #'     name  = "Speed (m/s)",
-#'     guide = guide_windrose(calm_text = windrose_calm_pct(df$wspd))
+#'     guide = guide_windrose(calm_text = windrose_calm_pct(wind$wspd))
 #'   ) +
 #'   theme_minimal() +
 #'   theme_windrose()
 #'
 #' # Faceted by season (each panel has its own calm %)
-#' df$season <- sample(c("DJF", "MAM", "JJA", "SON"), 500, replace = TRUE)
-#' ggplot(df, aes(x = wdir, y = wspd)) +
+#' wind_s <- transform(wind,
+#'   season = c("DJF","DJF","MAM","MAM","MAM","JJA","JJA","JJA","SON","SON","SON","DJF")[month]
+#' )
+#' ggplot(wind_s, aes(x = wdir, y = wspd)) +
 #'   geom_windrose() +
 #'   coord_windrose() +
 #'   scale_x_windrose() +
@@ -114,6 +112,7 @@ GeomWindrose <- ggplot2::ggproto(
 #'   facet_wrap(~season) +
 #'   theme_minimal() +
 #'   theme_windrose()
+#' }
 #'
 #' @export
 geom_windrose <- function(mapping        = NULL,
@@ -180,7 +179,13 @@ geom_windrose <- function(mapping        = NULL,
 #' @return A `CoordPolar` object.
 #'
 #' @examples
-#' # coord_windrose()
+#' \dontrun{
+#' library(ggplot2)
+#' ggplot(wind, aes(x = wdir, y = wspd)) +
+#'   geom_windrose() +
+#'   coord_windrose() +
+#'   scale_x_windrose()
+#' }
 #'
 #' @export
 coord_windrose <- function(...) {
@@ -210,9 +215,20 @@ coord_windrose <- function(...) {
 #' @return A `ScaleContinuous` object.
 #'
 #' @examples
-#' # scale_x_windrose()        # 8-point compass (default)
-#' # scale_x_windrose("4pt")   # 4-point compass
-#' # scale_x_windrose("16pt")  # 16-point compass
+#' \dontrun{
+#' library(ggplot2)
+#' # 8-point compass (default)
+#' ggplot(wind, aes(x = wdir, y = wspd)) +
+#'   geom_windrose() + coord_windrose() + scale_x_windrose()
+#'
+#' # 4-point compass
+#' ggplot(wind, aes(x = wdir, y = wspd)) +
+#'   geom_windrose() + coord_windrose() + scale_x_windrose("4pt")
+#'
+#' # 16-point compass
+#' ggplot(wind, aes(x = wdir, y = wspd)) +
+#'   geom_windrose() + coord_windrose() + scale_x_windrose("16pt")
+#' }
 #'
 #' @export
 scale_x_windrose <- function(compass = c("8pt", "4pt", "16pt"), ...) {
@@ -261,7 +277,14 @@ scale_x_windrose <- function(compass = c("8pt", "4pt", "16pt"), ...) {
 #' @return A `ScaleContinuous` object.
 #'
 #' @examples
-#' # scale_y_windrose()
+#' \dontrun{
+#' library(ggplot2)
+#' ggplot(wind, aes(x = wdir, y = wspd)) +
+#'   geom_windrose() +
+#'   coord_windrose() +
+#'   scale_x_windrose() +
+#'   scale_y_windrose()
+#' }
 #'
 #' @export
 scale_y_windrose <- function(...) {
@@ -290,18 +313,25 @@ scale_y_windrose <- function(...) {
 #' @return A `Scale` object.
 #'
 #' @examples
-#' # ColorBrewer palette
-#' # scale_fill_windrose()
+#' \dontrun{
+#' library(ggplot2)
+#' # ColorBrewer palette (default)
+#' ggplot(wind, aes(x = wdir, y = wspd)) +
+#'   geom_windrose() + coord_windrose() + scale_x_windrose() +
+#'   scale_fill_windrose()
 #'
 #' # With calm-% footer in the legend
-#' # scale_fill_windrose(
-#' #   guide = guide_windrose(calm_text = windrose_calm_pct(df$wspd))
-#' # )
+#' ggplot(wind, aes(x = wdir, y = wspd)) +
+#'   geom_windrose() + coord_windrose() + scale_x_windrose() +
+#'   scale_fill_windrose(
+#'     guide = guide_windrose(calm_text = windrose_calm_pct(wind$wspd))
+#'   )
 #'
 #' # Manual colours
-#' # scale_fill_windrose(
-#' #   colors = c("#ffffcc", "#fed976", "#fd8d3c", "#e31a1c")
-#' # )
+#' ggplot(wind, aes(x = wdir, y = wspd)) +
+#'   geom_windrose() + coord_windrose() + scale_x_windrose() +
+#'   scale_fill_windrose(colors = c("#ffffcc", "#fed976", "#fd8d3c", "#e31a1c"))
+#' }
 #'
 #' @export
 scale_fill_windrose <- function(palette = "YlOrRd",
@@ -343,10 +373,11 @@ scale_fill_windrose <- function(palette = "YlOrRd",
 #' @return A `character(1)` string, e.g. `"Calm: 6.0%"`.
 #'
 #' @examples
-#' x <- c(0, 0, 0.3, 1.2, 3.4, 5.6)
-#' windrose_calm_pct(x)                   # "Calm: 50.0%"
-#' windrose_calm_pct(x, threshold = 1.0)  # includes 0.3 in calm
-#' windrose_calm_pct(x, label = "Calme: ")
+#' \dontrun{
+#' windrose_calm_pct(wind$wspd)
+#' windrose_calm_pct(wind$wspd, threshold = 1.0)
+#' windrose_calm_pct(wind$wspd, label = "Calme : ")
+#' }
 #'
 #' @export
 windrose_calm_pct <- function(wspd,
@@ -374,13 +405,10 @@ windrose_calm_pct <- function(wspd,
 #' @return A `theme` object.
 #'
 #' @examples
+#' \dontrun{
 #' library(ggplot2)
-#' set.seed(1)
-#' df <- data.frame(wdir = sample(0:359, 300, replace = TRUE),
-#'                  wspd = rexp(300, 0.2))
-#'
 #' # theme_windrose() alone
-#' ggplot(df, aes(x = wdir, y = wspd)) +
+#' ggplot(wind, aes(x = wdir, y = wspd)) +
 #'   geom_windrose() +
 #'   coord_windrose() +
 #'   scale_x_windrose() +
@@ -388,13 +416,14 @@ windrose_calm_pct <- function(wspd,
 #'   theme_windrose()
 #'
 #' # Combined with a base theme (order matters: base first, then windrose)
-#' ggplot(df, aes(x = wdir, y = wspd)) +
+#' ggplot(wind, aes(x = wdir, y = wspd)) +
 #'   geom_windrose() +
 #'   coord_windrose() +
 #'   scale_x_windrose() +
 #'   scale_fill_windrose() +
 #'   theme_minimal() +
 #'   theme_windrose()
+#' }
 #'
 #' @export
 theme_windrose <- function() {

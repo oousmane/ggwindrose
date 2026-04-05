@@ -1,6 +1,6 @@
 Package: ggwindrose
 Title: Wind Rose Geom for 'ggplot2'
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: 
     person("Ousmane", "Ouedraogo", , "oousmane@proton.me", role = c("aut", "cre"))
 Description: Extends 'ggplot2' with a wind rose geom that bins wind
@@ -23,6 +23,10 @@ Suggests:
     RColorBrewer,
     testthat (>= 3.0.0),
     knitr,
-    rmarkdown
+    rmarkdown,
+    patchwork
 URL: https://github.com/oousmane/ggwindrose
 BugReports: https://github.com/oousmane/ggwindrose/issues
+Depends: 
+    R (>= 3.5)
+LazyData: true

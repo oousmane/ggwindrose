@@ -203,16 +203,14 @@ StatWindrose <- ggplot2::ggproto(
 #' }
 #'
 #' @examples
+#' \dontrun{
 #' library(ggplot2)
-#' set.seed(1)
-#' df <- data.frame(wdir = sample(0:359, 300, replace = TRUE),
-#'                  wspd = c(rep(0, 20), rexp(280, 0.2)))
-#'
 #' # Access calm_pct via after_stat()
-#' ggplot(df, aes(x = wdir, y = wspd)) +
+#' ggplot(wind, aes(x = wdir, y = wspd)) +
 #'   stat_windrose(aes(fill = after_stat(speed_class)), width = 22.5) +
 #'   coord_windrose() +
 #'   scale_x_windrose()
+#' }
 #'
 #' @export
 stat_windrose <- function(mapping        = NULL,

@@ -30,17 +30,14 @@
 #'
 #' ```r
 #' library(ggplot2)
-#' set.seed(1)
-#' df <- data.frame(wdir = sample(0:359, 500, replace = TRUE),
-#'                  wspd = c(rep(0, 30), rexp(470, 0.2)))
 #'
-#' ggplot(df, aes(x = wdir, y = wspd)) +
+#' ggplot(wind, aes(x = wdir, y = wspd)) +
 #'   geom_windrose() +
 #'   coord_windrose() +
 #'   scale_x_windrose() +
 #'   scale_fill_windrose(
 #'     name  = "Speed (m/s)",
-#'     guide = guide_windrose(calm_text = windrose_calm_pct(df$wspd))
+#'     guide = guide_windrose(calm_text = windrose_calm_pct(wind$wspd))
 #'   ) +
 #'   theme_minimal() +
 #'   theme_windrose()
