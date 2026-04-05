@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file. -->
 
-# ggwindrose <img src="man/figures/logo.png" align="right" height="139" alt="" />
+# ggwindrose <img src="man/figures/ggwindrose.png" align="right" width="25%" alt="ggwindrose logo" />
 
 <!-- badges: start -->
 
